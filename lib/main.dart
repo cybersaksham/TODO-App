@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import './Screens/homescreen.dart';
+import './Screens/Home/homescreen.dart';
 import './Screens/Authentication/auth_screen.dart';
 
 import './Models/routes.dart';
