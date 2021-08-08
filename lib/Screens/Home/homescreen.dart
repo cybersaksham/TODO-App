@@ -103,30 +103,86 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (ctx, i) {
                                   return InkWell(
                                     onTap: () => showTodo(context, myTODOS[i]),
-                                    child: Card(
-                                      elevation: 5,
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 8,
-                                        horizontal: 5,
+                                    child: Dismissible(
+                                      key: ValueKey(_user.uid),
+                                      background: Container(
+                                        color: Theme.of(context).errorColor,
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                          size: 40,
+                                        ),
+                                        alignment: Alignment.centerRight,
+                                        padding: EdgeInsets.only(right: 20),
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 4,
+                                          horizontal: 15,
+                                        ),
                                       ),
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                          radius: 30,
-                                          child: Padding(
-                                            padding: EdgeInsets.all(6),
-                                            child: FittedBox(
-                                              child: Text("${i + 1}"),
+                                      direction: DismissDirection.endToStart,
+                                      confirmDismiss: (dir) {
+                                        return showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            title: Text("Are you sure"),
+                                            content: Text(
+                                              "Do you really want to remove this todo?",
+                                            ),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text("No"),
+                                                onPressed: () =>
+                                                    Navigator.of(ctx)
+                                                        .pop(false),
+                                              ),
+                                              FlatButton(
+                                                child: Text("Yes"),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pop(true),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      onDismissed: (dir) {
+                                        setState(() {
+                                          Firestore.instance
+                                              .collection('users')
+                                              .document(_user.uid)
+                                              .collection('todos')
+                                              .document(myTODOS[i]['createdAt']
+                                                  .toString())
+                                              .delete();
+                                        });
+                                      },
+                                      child: Card(
+                                        elevation: 5,
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 8,
+                                          horizontal: 5,
+                                        ),
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            radius: 30,
+                                            child: Padding(
+                                              padding: EdgeInsets.all(6),
+                                              child: FittedBox(
+                                                child: Text("${i + 1}"),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        title: Text(
-                                          myTODOS[i]['title'],
-                                          style:
-                                              Theme.of(context).textTheme.title,
-                                        ),
-                                        subtitle: Text(
-                                          myTODOS[i]['date'],
-                                          style: TextStyle(color: Colors.grey),
+                                          title: Text(
+                                            myTODOS[i]['title'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .title,
+                                          ),
+                                          subtitle: Text(
+                                            myTODOS[i]['date'],
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
                                         ),
                                       ),
                                     ),
