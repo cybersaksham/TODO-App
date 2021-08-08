@@ -9,4 +9,5 @@ firebase_auth: ^0.16.0
 cloud_firestore: ^0.13.5
 google_fonts: ^1.1.0
 string_validator: ^0.3.0
+intl: ^0.15.8
 ```

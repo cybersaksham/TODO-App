@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import './new_todo.dart';
+
 import '../../Models/loader.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +28,19 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void addTodo(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          behavior: HitTestBehavior.opaque,
+          child: NewTodo(),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     fetchData();
@@ -37,7 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("My Todos"),
-        actions: [IconButton(icon: Icon(Icons.add), onPressed: () {})],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => addTodo(context),
+          )
+        ],
       ),
       body: _isLoading
           ? Loader()
@@ -68,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () => addTodo(context),
       ),
     );
   }
