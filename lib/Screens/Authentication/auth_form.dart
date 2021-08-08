@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../../Models/loader.dart';
@@ -64,6 +65,7 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _submitForm() {
+    SystemChannels.textInput.invokeMethod("TextInput.hide");
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       widget.authenticate(
