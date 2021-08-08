@@ -6,6 +6,7 @@ import './new_todo.dart';
 import './todo_details.dart';
 
 import '../../Models/loader.dart';
+import '../../Models/routes.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -68,8 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("My Todos"),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => addTodo(context),
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacementNamed(Routes.auth_screen);
+            },
           )
         ],
       ),
@@ -110,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Icon(
                                           Icons.delete,
                                           color: Colors.white,
-                                          size: 40,
+                                          size: 30,
                                         ),
                                         alignment: Alignment.centerRight,
                                         padding: EdgeInsets.only(right: 20),
