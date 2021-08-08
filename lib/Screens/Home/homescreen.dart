@@ -1,10 +1,15 @@
+// Importing Flutter Packages
 import 'package:flutter/material.dart';
+
+// Importing External Packages
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Importing Dart Files
 import './new_todo.dart';
 import './todo_details.dart';
 
+// Importing Dart Models
 import '../../Models/loader.dart';
 import '../../Models/routes.dart';
 
@@ -20,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Variables
   FirebaseUser _user;
 
+  // Function to fetch current user
   Future<void> fetchData() async {
     setState(() {
       _isLoading = true;
@@ -30,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Function to add new todo
   void addTodo(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
@@ -43,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Function to show details of a todo
   void showTodo(BuildContext ctx, dynamic tappedUser) {
     showModalBottomSheet(
       context: ctx,

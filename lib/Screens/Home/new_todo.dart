@@ -1,9 +1,13 @@
+// Imporitng Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Importing External Packages
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// Importing Dart Models
 import '../../Models/loader.dart';
 
 class NewTodo extends StatefulWidget {
@@ -12,25 +16,32 @@ class NewTodo extends StatefulWidget {
 }
 
 class _NewTodoState extends State<NewTodo> {
+  // Global Keys
   final _formKey = GlobalKey<FormState>();
+
+  // Booleans
   bool _isDateSelected = false;
   bool _isLoading = false;
   DateTime _pickedDate;
 
+  // Form Variables
   String _title = "";
   String _content = "";
   String _date = "";
 
+  // Title & Content Validator
   String _validateTitle(String val) {
     if (val.isEmpty) return "This field is required.";
     return null;
   }
 
+  // Date Validator
   String _validateDate(String val) {
     if (!_isDateSelected) return "This field is required.";
     return null;
   }
 
+  // Showing Date Picker
   void _presentDatePicker() {
     showDatePicker(
       context: context,
@@ -49,18 +60,27 @@ class _NewTodoState extends State<NewTodo> {
     });
   }
 
+  // Submitting Data
   Future<void> _submitForm() async {
-    SystemChannels.textInput.invokeMethod("TextInput.hide");
+    SystemChannels.textInput.invokeMethod("TextInput.hide"); // Hiding Keyboard
+    // Validating Form
     if (_formKey.currentState.validate()) {
+      // Saving Form
       _formKey.currentState.save();
+
+      // Showing loading spinner
       setState(() {
         _isLoading = true;
       });
+
+      // Getting Data
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
       String year = (_date.trim()).substring(8);
       int month = _pickedDate.month;
       String day = (_date.trim()).substring(4, 6);
       String time = "$year $month $day ${Timestamp.now()}";
+
+      // Sendign to database
       await Firestore.instance
           .collection('users')
           .document(user.uid)
@@ -72,9 +92,13 @@ class _NewTodoState extends State<NewTodo> {
         'date': _date.trim(),
         'createdAt': time,
       });
+
+      // Hiding loading spinner
       setState(() {
         _isLoading = true;
       });
+
+      // Popping out modal sheet
       Navigator.of(context).pop();
     }
   }

@@ -1,10 +1,15 @@
+// Importing Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Importing External Packages
 import 'package:string_validator/string_validator.dart';
 
+// Importing Dart Models
 import '../../Models/loader.dart';
 
 class AuthForm extends StatefulWidget {
+  // Class Variables
   final bool isLoading;
   final void Function(
     String,
@@ -14,6 +19,7 @@ class AuthForm extends StatefulWidget {
     BuildContext,
   ) authenticate;
 
+  // Constructor
   AuthForm(this.isLoading, this.authenticate);
 
   @override
@@ -21,14 +27,19 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
+  // Global Keys
   final _formKey = GlobalKey<FormState>();
+
+  // Booleans
   bool _isLogin = true;
   bool _isObscure = true;
 
+  // Form Variables
   String _name = "";
   String _userName = "";
   String _password = "";
 
+  // Name Validator
   String _validateName(String val) {
     if (val.isEmpty) {
       return "This field is required.";
@@ -44,6 +55,7 @@ class _AuthFormState extends State<AuthForm> {
     }
   }
 
+  // Password Validator
   String _validatePassword(String val) {
     if (val.isEmpty) {
       return "This field is required.";
@@ -53,6 +65,7 @@ class _AuthFormState extends State<AuthForm> {
     return null;
   }
 
+  // Username Validator
   String _validateUsername(String val) {
     if (val.isEmpty) {
       return "This field is required.";
@@ -64,10 +77,14 @@ class _AuthFormState extends State<AuthForm> {
     return null;
   }
 
+  // Submitting Form
   void _submitForm() {
-    SystemChannels.textInput.invokeMethod("TextInput.hide");
+    SystemChannels.textInput.invokeMethod("TextInput.hide"); // Hiding Keyboard
+    // Validating Form
     if (_formKey.currentState.validate()) {
+      // Saving Form
       _formKey.currentState.save();
+      // Sending Data
       widget.authenticate(
         _name.trim(),
         _userName.trim(),

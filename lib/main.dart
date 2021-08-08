@@ -1,14 +1,22 @@
+// Importing Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Importing External Packages
 import 'package:firebase_auth/firebase_auth.dart';
 
+// Importing Dart Files
 import './Screens/Home/homescreen.dart';
 import './Screens/Authentication/auth_screen.dart';
 
+// Importing Dart Models
 import './Models/routes.dart';
 
 void main() {
+  // Starting App
   runApp(MyApp());
+
+  // Binding in portrait mode only
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

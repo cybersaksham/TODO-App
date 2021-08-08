@@ -1,8 +1,11 @@
+// Imporitng Flutter Packages
 import 'package:flutter/material.dart';
 
 class TodoDetail extends StatelessWidget {
+  // Class Variables
   final tappedUser;
 
+  // Constructor
   TodoDetail(this.tappedUser);
 
   @override
