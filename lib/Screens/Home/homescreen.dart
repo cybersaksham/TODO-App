@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .collection('users')
                     .document(_user.uid)
                     .collection('todos')
-                    .orderBy('createdAt', descending: true)
+                    .orderBy('createdAt')
                     .snapshots(),
                 builder: (ctx, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -81,7 +81,47 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: Theme.of(context).textTheme.title,
                           ),
                         )
-                      : Container();
+                      : Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: myTODOS.length,
+                                itemBuilder: (ctx, i) {
+                                  return InkWell(
+                                    onTap: () {},
+                                    child: Card(
+                                      elevation: 5,
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: 5,
+                                      ),
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          radius: 30,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(6),
+                                            child: FittedBox(
+                                              child: Text("${i + 1}"),
+                                            ),
+                                          ),
+                                        ),
+                                        title: Text(
+                                          myTODOS[i]['title'],
+                                          style:
+                                              Theme.of(context).textTheme.title,
+                                        ),
+                                        subtitle: Text(
+                                          myTODOS[i]['date'],
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
                 },
               ),
             ),
