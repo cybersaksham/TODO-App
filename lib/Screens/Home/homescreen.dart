@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import './new_todo.dart';
+import './todo_details.dart';
 
 import '../../Models/loader.dart';
 
@@ -36,6 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {},
           behavior: HitTestBehavior.opaque,
           child: NewTodo(),
+        );
+      },
+    );
+  }
+
+  void showTodo(BuildContext ctx, dynamic tappedUser) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          behavior: HitTestBehavior.opaque,
+          child: TodoDetail(tappedUser),
         );
       },
     );
@@ -88,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemCount: myTODOS.length,
                                 itemBuilder: (ctx, i) {
                                   return InkWell(
-                                    onTap: () {},
+                                    onTap: () => showTodo(context, myTODOS[i]),
                                     child: Card(
                                       elevation: 5,
                                       margin: EdgeInsets.symmetric(
